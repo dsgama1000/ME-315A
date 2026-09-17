@@ -1,0 +1,108 @@
+---
+title: "Lista 05"
+author: "Daniel de Souza Gama (266805)"
+format: pdf
+editor: visual
+---
+
+```{r}
+library(DBI)
+library(RSQLite)
+
+# Conecta/Cria o arquivo
+con <- dbConnect(RSQLite::SQLite(), "me315.sqlite")
+```
+
+# 1)
+
+```{sql connection=con}
+SELECT PNAME, ACRES AS AREA_ATUAL, ACRES * 1.2 AS AREA_NOVA FROM PRESERVE
+```
+
+# 2)
+
+```{sql connection=con}
+SELECT PNAME, ACRES AS AREA_ATUAL, ACRES/3.0 AS AREA_NOVA FROM PRESERVE
+```
+
+# 3)
+
+```{sql connection=con}
+SELECT PNAME, FEE AS TAXA_ATUAL, (FEE+50)/2.0 AS TAXA_NOVA FROM PRESERVE
+```
+
+# 4)
+
+```{sql connection=con}
+SELECT AVG(ACRES) AS MEDIA_ACRES, MAX(ACRES) AS MAX_ACRES, MIN(ACRES) AS MIN_ACRES FROM PRESERVE
+WHERE STATE = 'AZ'
+```
+
+# 5)
+
+```{sql connection=con}
+SELECT MIN(PNAME) AS PRIMEIRA_RESERVA FROM PRESERVE
+```
+
+# 6)
+
+```{sql connection=con}
+SELECT COUNT(DISTINCT FEE) AS QTD_TAXAS_DISTINTAS FROM PRESERVE
+WHERE FEE > 0
+
+```
+
+# 7)
+
+```{sql connection=con}
+SELECT PNAME, COUNT(*) AS TOTAL FROM PRESERVE
+GROUP BY PNAME HAVING COUNT(*) > 1
+
+```
+
+# 8)
+
+```{sql connection=con}
+SELECT AVG(ACRES * 0.02) AS TAXA_MEDIA_AZ FROM PRESERVE
+WHERE STATE = 'AZ'
+```
+
+# 9)
+
+```{sql connection=con}
+SELECT ENO, ENAME, SALARY AS OLDSALARY, SALARY * 1.10 AS NEWSALARY FROM EMPLOYEE
+ORDER BY NEWSALARY
+```
+
+# 10)
+
+```{sql connection=con}
+SELECT ENO, ENAME, SALARY AS OLDSALARY, SALARY * 1.10 AS NEWSALARY FROM EMPLOYEE
+WHERE SALARY * 1.10 > 2000
+ORDER BY NEWSALARY
+
+```
+
+# 11)
+
+```{sql connection=con}
+SELECT SUM(SALARY) AS SOMA_SALARIOS, AVG(SALARY) AS MEDIA_SALARIOS, MAX(SALARY) AS MAX_SALARIO, MIN(SALARY) AS MIN_SALARIO FROM EMPLOYEE
+```
+
+# 12)
+
+```{sql connection=con}
+SELECT COUNT(*) AS QTD_FUNCIONARIOS_DEP20 FROM EMPLOYEE
+WHERE DNO = 20
+```
+
+# 13)
+
+```{sql connection=con}
+SELECT COUNT(DISTINCT DNO) AS QTD_DEPARTAMENTOS FROM EMPLOYEE
+```
+
+```{r}
+Sys.setenv(TZ = "America/Sao_Paulo")
+Sys.time()
+```
